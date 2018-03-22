@@ -1,0 +1,45 @@
+<settings>
+	<category label="Fanart Proxy">
+		<setting label="Fanart Proxy" type="text" enable="false"/>
+		<setting label="Provides Fanart services" type="text" enable="false"/>
+		<setting type="sep"/>
+		<setting label="Go to http://www.tvaddons.co for support." type="lsep" />
+	</category>
+	<category label="Fanart Service">
+		<setting type="lsep" label="Fanart"/>
+		<setting id="enable_fanart_proxy" default="true" type="bool" label="Enable Fanart Server"/>
+		<setting id="control_protocol" type="labelenum" label="Protocol" values="http|https" default="http" enable="!eq(-1,false)"/>
+		<setting id="control_port" label="Port" type="slider" default="8000" range="8000,1,8999" option="int" enable="!eq(-2,false)"/>
+		<setting id="network_bind" type="labelenum" label="Network" values="All Subnets|Localhost" default="Localhost" enable="!eq(-3,false)"/>
+		<setting id="enable_fanart_debug" default="false" type="bool" label="Enable Fanart Verbose Logging"/>
+	</category>
+	<category label="Services">
+		<setting id="enable_tmdb" default="true" type="bool" label="Enable TMDB"/>
+		<setting id="tmdb_api_key" type="text" label="TMDB Key" default="" enable="!eq(-1,false)"/>
+		
+		<setting id="enable_tvdb" default="true" type="bool" label="Enable TVDB"/>
+		<setting id="tvdb_api_key" type="text" label="TVDB Key" default="" enable="!eq(-1,false)"/>
+		
+		<setting id="enable_oimdb" default="true" type="bool" label="Enable OIMDB" />
+		<setting id="oimdb_api_key" type="text" label="OIMDB Key" default="" enable="!eq(-1,false)"/>
+		
+		<setting id="enable_imdbapi" default="true" type="bool" label="Enable IMDBAPI"/>
+		<setting id="imdb_api_key" type="text" label="IMDB Key" default="" enable="!eq(-1,false)"/>
+		
+		<setting id="enable_fanart" default="true" type="bool" label="Enable Fanart.TV"/>
+		<setting id="fanart_api_key" type="text" label="Fanart.TV Key" default="" enable="!eq(-1,false)"/>
+		<setting id="enable_imdb" default="true" type="bool" label="Enable IMDB"/>
+		<setting id="enable_tvmaze" default="true" type="bool" label="Enable TVMaze"/>
+	</category>
+	<category label="Database">
+		<setting default="0" enabled="!eq(-1,false)" id="database_type" label="Database Type" type="enum" values="SQLite|MySQL"></setting>
+		<setting label="SQLite" type="lsep"></setting>
+		<setting default="special://profile/addon_data/service.fanart.proxy/API_CACHE/cache.db" enable="eq(-2,0)" id="database_sqlite_file" label="Database File" subsetting="true" type="file"></setting>
+		<setting label="MySQL" type="lsep"></setting>
+		<setting default="" enable="eq(-4,1)" id="database_mysql_host" label="Host" subsetting="true" type="text"></setting>
+		<setting default="fanart_cache" enable="eq(-5,1)" id="database_mysql_name" label="Schema" subsetting="true" type="text"></setting>
+		<setting default="" enable="eq(-6,1)" id="database_mysql_user" label="Username" subsetting="true" type="text"></setting>
+		<setting default="" enable="eq(-7,1)" id="database_mysql_pass" label="Password" option="hidden" subsetting="true" type="text"></setting>
+		<setting default="3306" enable="eq(-8,1)" id="database_mysql_port" label="Port" subsetting="true" type="number"></setting>
+	</category>
+</settings>

@@ -14,10 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *'''
-import os
 import sys
-import json
-import xbmc, xbmcgui
+import xbmc
 from threading import Thread
 from sqlite3 import dbapi2 as database
 from request_handler import RequestHandler
@@ -26,12 +24,7 @@ test = xbmc.__version__.split('.')
 is_depricated = True if int(test[1]) < 19  else False
 
 
-class FanartService(xbmc.Player):
-	def __init__(self, *args, **kwargs):
-		self.__current_time 		= 0
-		self.__total_time			= 0
-		self.__percent 				= 0
-		self.__tracking				= False
+class FanartService():
 
 	def clear_art(self):
 		kodi.log("Clearing Bad Art...")
@@ -49,34 +42,6 @@ class FanartService(xbmc.Player):
 		dbh.commit()
 		kodi.vfs.write_file(BAD_FILE, '')
 	
-	def onPlayBackStarted(self):
-		self.__tracking = kodi.get_property('playing')
-		if self.__tracking:
-			try:
-				self.__total_time = self.getTotalTime()
-				kodi.set_property('playing', "true")
-				kodi.set_property('percent', "")
-				kodi.set_property('total_time', str(self.__total_time))
-				resume_point = kodi.get_property("playback.resume")
-				if resume_point:
-					self.seekTime(float(resume_point))
-			except Exception, e:
-				kodi.log(e)	
-	
-	def onPlayBackStopped(self):
-		if self.__tracking:
-			try:
-				self.__percent = int(self.__current_time * 100 / self.__total_time )
-			except:
-				self.__percent = 0
-			kodi.set_property('percent', str(self.__percent))
-			kodi.set_property('current_time', str(self.__current_time))
-			kodi.set_property('total_time', str(self.__total_time))
-			kodi.set_property('playing', "false")
-					
-	def onPlayBackEnded(self):
-		self.onPlayBackStopped()
-				
 	def start(self):
 		class Monitor(xbmc.Monitor):
 			def onSettingsChanged(self):
@@ -111,17 +76,11 @@ class FanartService(xbmc.Player):
 			self.webserver.start()
 		if is_depricated:
 			while not xbmc.abortRequested:
-				if self.isPlaying() and self.__tracking:
-					self.__current_time = self.getTime()
-					self.__total_time = self.getTotalTime()
 				kodi.sleep(1000)
 		else:
 			while not monitor.abortRequested():
 				if monitor.waitForAbort(1):
 					break
-				if self.isPlaying() and self.__tracking:
-					self.__current_time = self.getTime()
-					self.__total_time = self.getTotalTime()
 	
 		self.shutdown()
 	
